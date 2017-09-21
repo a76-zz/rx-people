@@ -1,14 +1,22 @@
 <div>
   <input [(ngModel)]="login" #ctrl="ngModel" placeholder="Login">
   <input type="password" [(ngModel)]="password" #ctrl="ngModel" placeholder="Enter Password">
-  <button (click)="doLogin()">Login</button> 
-  <div>
-    {{user?.token}}
+  <button (click)="doLogin()">Login</button>
+
+  <div *ngIf="user?.status === Status.Ready">
+    <div>
+      {{user?.value?.token}}
+    </div>
+    <div>
+      {{user?.value?.firstName}}
+    </div>
   </div>
-  <div>
-    {{user?.firstName}}
+
+  <div *ngIf="user?.status === Status.Error">
+    {{user?.value?.statusText}}
   </div>
-  <div>
-    {{user?.error?.statusText}}
+  
+  <div *ngIf="user?.status === Status.Loading">
+     Loading
   </div>
 </div>

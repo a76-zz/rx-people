@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { User, Login } from './login.interfaces';
+import { Status, Processing } from '../operator/operator.interfaces';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,10 @@ import { User, Login } from './login.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  @Input() user: {error} | User;
+  @Input() user: Processing<User>;
   @Output() loginAction: EventEmitter<Login> = new EventEmitter<Login>();
+
+  public Status = Status;
 
   login: string;
   password: string;
