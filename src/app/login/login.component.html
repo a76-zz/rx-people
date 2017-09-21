@@ -8,4 +8,7 @@
   <div>
     {{(loginService.user | async)?.firstName}}
   </div>
+  <div>
+    {{(loginService.user | async)?.error?.statusText}}
+  </div>
 </div>

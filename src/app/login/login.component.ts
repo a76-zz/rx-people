@@ -14,7 +14,7 @@ export class LoginComponent implements Login {
   password: string;
 
   constructor(private loginService: LoginService) {
-    loginService.userError.subscribe(error => console.log(error));
+    loginService.user.subscribe(user => console.log(user));
   }
 
   doLogin() {
