@@ -1,27 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../login.service';
-import { Login } from '../login';
-import { Observable } from 'rxjs/Rx';
-import { User } from '../user';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { User, Login } from './login.interfaces';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements Login {
+export class LoginComponent {
+  @Input() user: {error} | User;
+  @Output() loginAction: EventEmitter<Login> = new EventEmitter<Login>();
+
   login: string;
   password: string;
 
-  constructor(private loginService: LoginService) {
-    loginService.user.subscribe(user => console.log(user));
-  }
-
   doLogin() {
-    const login = this.login;
-    const password = this.password;
-
-    this.loginService.login.next({
+    const { login, password } = this;
+    this.loginAction.emit({
       login,
       password
     });
