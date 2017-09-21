@@ -1,0 +1,11 @@
+<div>
+  <input [(ngModel)]="login" #ctrl="ngModel" placeholder="Login">
+  <input type="password" [(ngModel)]="password" #ctrl="ngModel" placeholder="Enter Password">
+  <button (click)="doLogin()">Login</button> 
+  <div>
+    {{(loginService.user | async)?.token}}
+  </div>
+  <div>
+    {{(loginService.user | async)?.firstName}}
+  </div>
+</div>

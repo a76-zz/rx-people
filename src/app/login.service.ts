@@ -11,12 +11,18 @@ import { Http } from '@angular/http';
 export class LoginService {
   public readonly login: Subject<Login> = new Subject<Login>();
   public readonly user: Observable<User>;
+  public readonly userError: Observable<any>;
 
   constructor(private http: Http) {
-    this.user = this.login
-      .flatMap(login => http.get('http://localhost:3001/login', {params: login}))
-      .catch(error => Observable.throw(error.json().error))
-      .map(response => response.json())
-      .switchMap(response => response.error ? Observable.throw(response.error) : Observable.from(response));
+    const doLogin = this.login
+    .flatMap(login => http.get('http://localhost:3001/login', {params: login}))
+    .map(response => response.json())
+    .share();
+
+    this.user = doLogin
+      .catch(err => Observable.never());
+
+    this.userError = doLogin
+      .catch(err => Observable.of(err));
   }
 }
