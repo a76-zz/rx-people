@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginService } from './login/login.service';
-import { Login } from './login/login.interfaces';
+import { LoginQuery } from './login/login.interfaces';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent {
   constructor (private login: LoginService) {
   }
 
-  doLogin(login: Login) {
+  doLogin(login: LoginQuery) {
     this.login.input.next(login);
   }
 }

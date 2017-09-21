@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { User, Login } from './login.interfaces';
-import { Status, Processing } from '../operator/operator.interfaces';
+import { LoginInfo, LoginQuery } from './login.interfaces';
+import { Status, RemoteData } from '../remote-data';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +9,8 @@ import { Status, Processing } from '../operator/operator.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  @Input() user: Processing<User>;
-  @Output() loginAction: EventEmitter<Login> = new EventEmitter<Login>();
+  @Input() user: RemoteData<LoginInfo>;
+  @Output() loginAction: EventEmitter<LoginQuery> = new EventEmitter<LoginQuery>();
 
   public Status = Status;
 

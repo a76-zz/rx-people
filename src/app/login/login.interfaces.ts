@@ -1,8 +1,8 @@
-export interface Login {
+export interface LoginQuery {
     login: string;
     password: string;
 }
-export interface User {
+export interface LoginInfo {
     firstName: string;
     lastName: string;
     token: string;
