@@ -14,15 +14,22 @@ export class LoginService {
   public readonly userError: Observable<any>;
 
   constructor(private http: Http) {
+    const sendQuery = (params) => http.get('http://localhost:3001/login', {params})
+      .do(response => console.log(response))
+      .map(response => response.json());
+
     const doLogin = this.login
-    .flatMap(login => http.get('http://localhost:3001/login', {params: login}))
-    .map(response => response.json())
-    .share();
+      .switchMap(
+        login => sendQuery(login)
+        .catch(error => Observable.of({error}))
+      )
+      .share();
 
     this.user = doLogin
-      .catch(err => Observable.never());
+      .filter(result => !result.error);
 
     this.userError = doLogin
-      .catch(err => Observable.of(err));
+      .filter(result => result.error)
+      .map(result => result.error);
   }
 }
