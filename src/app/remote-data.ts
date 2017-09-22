@@ -18,10 +18,13 @@ export interface RemoteData<Result> {
     value?: Result | any;
 }
 
-
 export function createRemoteStream<T>(input: Observable<T>, request: (params: T) => Observable<Response>) {
     return input.switchMap(
         (params) => sendQuery(params, request)
         .catch(error => Observable.of({status: Status.Error, value: error}))
     );
+}
+
+export function readify<Result>(data: Observable<RemoteData<Result>>) {
+    return data.filter(result => result.status === Status.Ready).map(result => result.value);
 }

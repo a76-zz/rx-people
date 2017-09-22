@@ -7,3 +7,5 @@ export interface LoginInfo {
     lastName: string;
     token: string;
 }
+
+export const CurrentUserKey = 'currentUser';

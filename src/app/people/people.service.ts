@@ -16,8 +16,9 @@ export class PeopleService {
   public readonly output: Observable<RemoteData<Page<Person>>>;
 
   constructor(private login: LoginService, private http: Http) {
+
     const source = Observable.combineLatest(
-      login.output.filter(info => info.status === Status.Ready).map(info => info.value),
+      login.readyOutput,
       this.input
     );
 
