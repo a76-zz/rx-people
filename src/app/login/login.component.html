@@ -1,22 +1,22 @@
 <div>
   <input [(ngModel)]="login" #ctrl="ngModel" placeholder="Login">
   <input type="password" [(ngModel)]="password" #ctrl="ngModel" placeholder="Enter Password">
-  <button (click)="doLogin()">Login</button>
+  <button (click)="raiseQuery()">Login</button>
 
-  <div *ngIf="user?.status === Status.Ready">
+  <div *ngIf="state?.status === Status.Ready">
     <div>
-      {{user?.value?.token}}
+      {{state?.value?.token}}
     </div>
     <div>
-      {{user?.value?.firstName}}
+      {{state?.value?.firstName}}
     </div>
   </div>
 
-  <div *ngIf="user?.status === Status.Error">
-    {{user?.value?.statusText}}
+  <div *ngIf="state?.status === Status.Error">
+    {{state?.value?.statusText}}
   </div>
   
-  <div *ngIf="user?.status === Status.Loading">
+  <div *ngIf="state?.status === Status.Loading">
      Loading
   </div>
 </div>

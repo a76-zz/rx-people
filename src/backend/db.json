@@ -3,5 +3,20 @@
         "firstName": "Andrei",
         "lastName": "Silchankau",
         "token": "123"
+    },
+    "people": {
+        "total": 2,
+        "data": [
+            {
+                "firstName": "Andrei",
+                "lastName": "Silchankau",
+                "email": "andrei.silchankau@gmail.com"
+            },
+            {
+                "firstName": "Yauhen",
+                "lastName": "Papko",
+                "email": "yauhen.papko@gmail.com"
+            }
+        ]
     } 
 }

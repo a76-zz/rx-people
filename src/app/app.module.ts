@@ -11,7 +11,8 @@ import { PeopleModule } from './people/people.module';
   ],
   imports: [
     BrowserModule,
-    LoginModule
+    LoginModule,
+    PeopleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

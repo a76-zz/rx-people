@@ -9,17 +9,17 @@ import { Status, RemoteData } from '../remote-data';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  @Input() user: RemoteData<LoginInfo>;
-  @Output() loginAction: EventEmitter<LoginQuery> = new EventEmitter<LoginQuery>();
-
   public Status = Status;
 
   login: string;
   password: string;
 
-  doLogin() {
+  @Input() state: RemoteData<LoginInfo>;
+  @Output() queryHandler: EventEmitter<LoginQuery> = new EventEmitter<LoginQuery>();
+
+  raiseQuery() {
     const { login, password } = this;
-    this.loginAction.emit({
+    this.queryHandler.emit({
       login,
       password
     });

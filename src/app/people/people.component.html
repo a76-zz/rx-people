@@ -1,3 +1,13 @@
-<p>
-  people works!
-</p>
+<div>
+  <label for="total">Total</label>
+  <div id="total">
+    {{state?.value?.total}}
+  </div>
+
+  <button (click)="raiseQuery()">View People</button>
+  
+  <div *ngIf="state?.status === Status.Error">
+    {{state?.value?.statusText}}
+  </div>
+</div>
+
