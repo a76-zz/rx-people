@@ -6,9 +6,8 @@ import { LoginInfo } from '../login/login.interfaces';
 import { Person, PeopleQuery } from './people.interfaces';
 import { Http } from '@angular/http';
 
-import { createRemoteStream, RemoteData, Status } from '../remote-data';
+import { toQuery, toBehavior, RemoteData, Status } from '../remote-data';
 import { Page } from '../app.interfaces';
-
 
 @Injectable()
 export class PeopleService {
@@ -16,15 +15,16 @@ export class PeopleService {
   public readonly output: Observable<RemoteData<Page<Person>>>;
 
   constructor(private login: LoginService, private http: Http) {
+    login.user.subscribe(v => console.log(v));
 
     const source = Observable.combineLatest(
-      login.readyOutput,
+      login.user,
       this.input
     );
 
     const query = (params: [LoginInfo, PeopleQuery]) => http.get('/api/people', {params});
 
-    this.output = createRemoteStream(source, query).share();
+    const output = toQuery(source, query);
+    this.output = toBehavior(output);
   }
-
 }
