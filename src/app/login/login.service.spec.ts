@@ -49,7 +49,7 @@ describe('Login Service', () => {
             }
         ]);
 
-        service.input.next({});
+        service.input.next();
     }));
 
     it('should return completed login state', inject([LoginService, XHRBackend], (service, mockbackend) => {
@@ -67,15 +67,15 @@ describe('Login Service', () => {
         });
 
         testSequence(service.loginCompleted, [ response ]);
-        service.input.next({});
+        service.input.next();
     }));
 
-    it('should return null as initial user state', inject([LoginService, XHRBackend, LocalStorageService],
+    it('should return undefined as initial user state', inject([LoginService, XHRBackend, LocalStorageService],
         (service, mockbackend, localStorageService) => {
         localStorageService.clear();
         service = new LoginService(TestBed.get(Http), TestBed.get(LocalStorageService));
 
-        testSequence(service.user, [ null ]);
+        testSequence(service.user, [ undefined ]);
     }));
 
     it('should return not empty initial user state', inject([LoginService, XHRBackend, LocalStorageService],
@@ -116,10 +116,10 @@ describe('Login Service', () => {
         });
 
         testSequence(service.user, [ initialState, response ]);
-        service.input.next({});
+        service.input.next();
     }));
 
-    it('should keep last user state', inject([LoginService, XHRBackend, LocalStorageService],
+    it('should process logout', inject([LoginService, XHRBackend, LocalStorageService],
         (service, mockbackend, localStorageService) => {
         const initialState = {
             firstName: 'a',
@@ -127,24 +127,25 @@ describe('Login Service', () => {
             token: 'c'
         };
 
-        const response = {
-            firstName: 'c',
-            lastName: 'e',
-            token: 'd'
+        localStorageService.store(CurrentUserKey, initialState);
+        service = new LoginService(TestBed.get(Http), TestBed.get(LocalStorageService));
+
+        testSequence(service.user, [ initialState, undefined ]);
+        service.logout.next();
+    }));
+
+    it('should clear local storage after logout', inject([LoginService, XHRBackend, LocalStorageService],
+        (service, mockbackend, localStorageService) => {
+        const initialState = {
+            firstName: 'a',
+            lastName: 'b',
+            token: 'c'
         };
 
         localStorageService.store(CurrentUserKey, initialState);
         service = new LoginService(TestBed.get(Http), TestBed.get(LocalStorageService));
+        service.logout.next();
 
-        mockbackend.connections.subscribe(connection => {
-            connection.mockRespond(new Response(new ResponseOptions({
-                body: JSON.stringify(response)
-            })));
-        });
-
-        service.input.next({});
-        testSequence(service.user, [ response ]);
+        expect(localStorageService.retrieve(CurrentUserKey)).toEqual(null);
     }));
-
-
 });
