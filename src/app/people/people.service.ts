@@ -24,7 +24,6 @@ export class PeopleService {
 
     const query = (params: [LoginInfo, PeopleQuery]) => http.get('/api/people', {params});
 
-    const output = toQuery(source, query);
-    this.output = toBehavior(output);
+    this.output = toBehavior(toQuery(source, query));
   }
 }

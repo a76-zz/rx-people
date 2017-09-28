@@ -16,19 +16,15 @@ export class LoginService {
 
   constructor(private http: Http, private localStorage: LocalStorageService) {
     const query = (params: LoginQuery) => http.get('/api/login', {params});
-    const login = toQuery(this.input, query);
+    this.login = toBehavior(toQuery(this.input, query));
 
-    const loginCompleted = toCompleted(login);
-    const user = Observable.merge(
+    this.loginCompleted = toCompleted(this.login);
+    this.user = Observable.merge(
       this.logout.mapTo(undefined),
-      loginCompleted.startWith(window['currentUser'] || this.localStorage.retrieve(CurrentUserKey) || undefined)
+      this.loginCompleted.startWith(window['currentUser'] || this.localStorage.retrieve(CurrentUserKey) || undefined)
     );
 
-    this.login = toBehavior(login);
-    this.loginCompleted = toBehavior(loginCompleted);
-    this.user = toBehavior(user);
-
-    loginCompleted.subscribe(info => this.localStorage.store(CurrentUserKey, info));
+    this.loginCompleted.subscribe(info => this.localStorage.store(CurrentUserKey, info));
     this.logout.subscribe(() => this.localStorage.clear(CurrentUserKey));
   }
 }
